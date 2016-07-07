@@ -1,6 +1,8 @@
 {
     "author": "GarethC",
-    "dependencies": {},
+    "dependencies": {
+        "pebble-clay": "^1.0.1"
+    },
     "keywords": [],
     "name": "graphface",
     "pebble": {
@@ -8,12 +10,12 @@
             "configurable"
         ],
         "displayName": "GraphFace",
-        "enableMultiJS": false,
+        "enableMultiJS": true,
         "messageKeys": [
-            "KEY_INVERT",
-            "KEY_BACKGROUND",
-            "KEY_DATE",
-            "KEY_GRAPHPERIOD"
+            "INVERT",
+            "BACKGROUND",
+            "DATE",
+            "GRAPHPERIOD"
         ],
         "projectType": "native",
         "resources": {

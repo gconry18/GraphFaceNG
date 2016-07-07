@@ -269,16 +269,12 @@ void bluetooth_connection_callback(bool connected) {
 // 						MESSAGE HANDLER							//
 //																//
 //--------------------------------------------------------------//
-static void in_recv_handler(DictionaryIterator *iterator, void *context)
+static void in_recv_handler(DictionaryIterator *iter, void *context)
 {
 	//Get Tuple
-	Tuple *t = dict_read_first(iterator);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - HI");
-	while(t != NULL)
-	{
-		switch(t->key)
-		{
-			/*case KEY_INVERT:
+	
+	/*case KEY_INVERT:
 				if(strcmp(t->value->cstring, "on") == 0)
 				{
 					layer_set_hidden(inverter_layer_get_layer(s_inverter_layer), false);
@@ -292,53 +288,56 @@ static void in_recv_handler(DictionaryIterator *iterator, void *context)
 					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Not Inverted");
 				}
 				break;*/
-			
-			case KEY_BACKGROUND:
-				if(strcmp(t->value->cstring, "on") == 0)
-				{
-					gbitmap_destroy(s_background_bitmap);
-					s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_BLACK);
-					bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
-					persist_write_bool(KEY_BACKGROUND, true);
-					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Show Back");
-				}
-				else if(strcmp(t->value->cstring, "off") == 0)
-				{
-					gbitmap_destroy(s_background_bitmap);
-					s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_WHITE);
-					bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
-					persist_write_bool(KEY_BACKGROUND, false);
-					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - HideBack");
-				}
-				break;
-			
-			case KEY_DATE: ;
-				time_t now = time(NULL);
-				if(strcmp(t->value->cstring, "DD-MM") == 0)
-				{				
-					persist_write_bool(KEY_DATE, true);
-					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - DD-MM");
-				}
-				else if(strcmp(t->value->cstring, "MM-DD") == 0)
-				{
-					persist_write_bool(KEY_DATE, false);
-					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - MM-DD");
-				}
-				update_date(localtime(&now));
-				break;
-			
-			case KEY_GRAPHPERIOD:
-				if(strcmp(t->value->cstring, "0") == 0) persist_write_int(KEY_GRAPHPERIOD, 0);
-				else if(strcmp(t->value->cstring, "1") == 0) persist_write_int(KEY_GRAPHPERIOD, 1);
-				else if(strcmp(t->value->cstring, "5") == 0) persist_write_int(KEY_GRAPHPERIOD, 5);
-				else if(strcmp(t->value->cstring, "10") == 0) persist_write_int(KEY_GRAPHPERIOD, 10);
-				else if(strcmp(t->value->cstring, "30") == 0) persist_write_int(KEY_GRAPHPERIOD, 30);
-				else if(strcmp(t->value->cstring, "60") == 0) persist_write_int(KEY_GRAPHPERIOD, 60);
-				int period = persist_read_int(KEY_GRAPHPERIOD);
-				APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - graph secs %d", period);
-				break;
+
+	Tuple *background_t = dict_find(iter, MESSAGE_KEY_BACKGROUND);
+	if(background_t)
+	{
+		if(background_t->value->int32 == 1)
+		{
+			gbitmap_destroy(s_background_bitmap);
+			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_BLACK);
+			bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+			persist_write_bool(KEY_BACKGROUND, true);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Show Back");
 		}
-    	t = dict_read_next(iterator);
+		else if(background_t->value->int32 == 0)
+		{
+			gbitmap_destroy(s_background_bitmap);
+			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_WHITE);
+			bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+			persist_write_bool(KEY_BACKGROUND, false);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - HideBack");
+		}
+	}
+
+	Tuple *date_format_t = dict_find(iter,  MESSAGE_KEY_DATE);
+	if (date_format_t)
+	{
+		time_t now = time(NULL);
+		if(strcmp(date_format_t->value->cstring, "DD-MM") == 0)
+		{				
+			persist_write_bool(KEY_DATE, true);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - DD-MM");
+		}
+		else if(strcmp(date_format_t->value->cstring, "MM-DD") == 0)
+		{
+			persist_write_bool(KEY_DATE, false);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - MM-DD");
+		}
+		update_date(localtime(&now));
+	}
+
+	Tuple *graph_period_t = dict_find(iter, MESSAGE_KEY_GRAPHPERIOD);
+	if (graph_period_t)
+	{
+		if(strcmp(graph_period_t->value->cstring, "0") == 0) persist_write_int(KEY_GRAPHPERIOD, 0);
+		else if(strcmp(graph_period_t->value->cstring, "1") == 0) persist_write_int(KEY_GRAPHPERIOD, 1);
+		else if(strcmp(graph_period_t->value->cstring, "5") == 0) persist_write_int(KEY_GRAPHPERIOD, 5);
+		else if(strcmp(graph_period_t->value->cstring, "10") == 0) persist_write_int(KEY_GRAPHPERIOD, 10);
+		else if(strcmp(graph_period_t->value->cstring, "30") == 0) persist_write_int(KEY_GRAPHPERIOD, 30);
+		else if(strcmp(graph_period_t->value->cstring, "60") == 0) persist_write_int(KEY_GRAPHPERIOD, 60);
+		int period = persist_read_int(KEY_GRAPHPERIOD);
+		APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - graph secs %d", period);
 	}
 }
 
@@ -611,7 +610,7 @@ static void init() {
 
 	window_stack_push(s_main_window, true);
 	
-	app_message_register_inbox_received((AppMessageInboxReceived) in_recv_handler);
+	app_message_register_inbox_received(in_recv_handler);
 	app_message_register_inbox_dropped(inbox_dropped_callback);
 	app_message_register_outbox_failed(outbox_failed_callback);
 	app_message_register_outbox_sent(outbox_sent_callback);

@@ -1,4 +1,4 @@
-console.log('JS File Start!');
+/*console.log('JS File Start!');
 var configuration = {};
 
 Pebble.addEventListener('ready', function(e) {
@@ -54,4 +54,4 @@ function saveData(config) {
 	localStorage.setItem("graphPeriod", config.graphPeriod);
 	
 	loadData();
-}
+}*/
