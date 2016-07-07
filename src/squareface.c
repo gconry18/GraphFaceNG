@@ -20,7 +20,7 @@ static Layer *date_layer;
 static BitmapLayer *s_background_layer;
 static GBitmap *s_background_bitmap;
 
-static InverterLayer *s_inverter_layer;
+//static InverterLayer *s_inverter_layer;
 
 // GRAPH
 static BitmapLayer *s_graph_underline;
@@ -131,7 +131,7 @@ unsigned short get_display_hour(unsigned short hour) {
 static void set_container_image(BitmapLayer *bmp_layer, const GBitmap *bmp_image, GPoint origin) {
 	GRect frame = (GRect) {
 		.origin = origin,
-		.size = bmp_image->bounds.size
+		.size = gbitmap_get_bounds(bmp_image).size
 	};
 	bitmap_layer_set_bitmap(bmp_layer, bmp_image);
 	layer_set_frame(bitmap_layer_get_layer(bmp_layer), frame);
@@ -278,7 +278,7 @@ static void in_recv_handler(DictionaryIterator *iterator, void *context)
 	{
 		switch(t->key)
 		{
-			case KEY_INVERT:
+			/*case KEY_INVERT:
 				if(strcmp(t->value->cstring, "on") == 0)
 				{
 					layer_set_hidden(inverter_layer_get_layer(s_inverter_layer), false);
@@ -291,7 +291,7 @@ static void in_recv_handler(DictionaryIterator *iterator, void *context)
 					persist_write_bool(KEY_INVERT, false);
 					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Not Inverted");
 				}
-				break;
+				break;*/
 			
 			case KEY_BACKGROUND:
 				if(strcmp(t->value->cstring, "on") == 0)
@@ -517,13 +517,13 @@ static void main_window_load (Window *window) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - No BT Init Complete");
 	
 	// INVERTER
-	bool inverted = persist_read_bool(KEY_INVERT);
+	/*bool inverted = persist_read_bool(KEY_INVERT);
 	
 	s_inverter_layer = inverter_layer_create(GRect(0, 0, 144, 168));
 	layer_add_child(window_get_root_layer(window), (Layer *)s_inverter_layer);
 	layer_set_hidden(inverter_layer_get_layer(s_inverter_layer), !inverted);
 	
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Inverter Complete");
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Inverter Complete");*/
 }
 
 //--------------------------------------------------------------//
@@ -594,8 +594,8 @@ static void main_window_unload (Window *window) {
 	gbitmap_destroy(s_bt_bitmap);
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_unload() - BT Layers Destroyed");	
   	
-	inverter_layer_destroy(s_inverter_layer);
-	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_unload() - Inverter Layer Destroyed");	
+	/*inverter_layer_destroy(s_inverter_layer);
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_unload() - Inverter Layer Destroyed");*/	
 }
  
 //--------------------------------------------------------------//

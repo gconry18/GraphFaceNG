@@ -9,12 +9,12 @@
         ],
         "displayName": "GraphFace",
         "enableMultiJS": false,
-        "messageKeys": {
-            "KEY_BACKGROUND": 1,
-            "KEY_DATE": 2,
-            "KEY_GRAPHPERIOD": 3,
-            "KEY_INVERT": 0
-        },
+        "messageKeys": [
+            "KEY_INVERT",
+            "KEY_BACKGROUND",
+            "KEY_DATE",
+            "KEY_GRAPHPERIOD"
+        ],
         "projectType": "native",
         "resources": {
             "media": [
@@ -189,8 +189,7 @@
         "sdkVersion": "3",
         "targetPlatforms": [
             "aplite",
-            "basalt",
-            "chalk"
+            "basalt"
         ],
         "uuid": "33e81ca4-c8f0-4596-bf32-7bd2b6ab6ef0",
         "watchapp": {

@@ -8,7 +8,7 @@ Pebble.addEventListener('ready', function(e) {
 
 Pebble.addEventListener('showConfiguration', function(e) {
 	console.log('PebbleKit Show Config!');
-	Pebble.openURL("http://gconry18.github.io/squareface_test.html");
+	Pebble.openURL("http://gconry18.github.io/graphface_ng_test.html");
 });
 	
 Pebble.addEventListener('webviewclosed',
