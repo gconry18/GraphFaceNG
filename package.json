@@ -21,6 +21,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/timering.png",
+                    "name": "IMAGE_TIMERING",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "images/time-colon.png",
                     "name": "IMAGE_TIME_COLON",
                     "type": "png-trans"
@@ -149,6 +155,7 @@
                 {
                     "file": "images/SquareFace.png",
                     "name": "IMAGE_SQUAREFACE_BACKGROUND",
+                    "targetPlatforms": null,
                     "type": "png-trans"
                 },
                 {

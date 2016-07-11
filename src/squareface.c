@@ -34,17 +34,17 @@ static int s_graph_heights[GRAPH_BARS];
 static BitmapLayer *time_digits_layers[TOTAL_TIME_DIGITS];
 
 const int TIME_IMAGE_RESOURCE_IDS[] = {
-    RESOURCE_ID_IMAGE_TIME_0_BLACK,
-    RESOURCE_ID_IMAGE_TIME_1_BLACK,
-    RESOURCE_ID_IMAGE_TIME_2_BLACK,
-    RESOURCE_ID_IMAGE_TIME_3_BLACK,
-    RESOURCE_ID_IMAGE_TIME_4_BLACK,
-    RESOURCE_ID_IMAGE_TIME_5_BLACK,
-    RESOURCE_ID_IMAGE_TIME_6_BLACK,
-    RESOURCE_ID_IMAGE_TIME_7_BLACK,
-    RESOURCE_ID_IMAGE_TIME_8_BLACK,
-    RESOURCE_ID_IMAGE_TIME_9_BLACK,
-    RESOURCE_ID_IMAGE_TIME_COLON_BLACK
+    RESOURCE_ID_IMAGE_TIME_0_WHITE,
+    RESOURCE_ID_IMAGE_TIME_1_WHITE,
+    RESOURCE_ID_IMAGE_TIME_2_WHITE,
+    RESOURCE_ID_IMAGE_TIME_3_WHITE,
+    RESOURCE_ID_IMAGE_TIME_4_WHITE,
+    RESOURCE_ID_IMAGE_TIME_5_WHITE,
+    RESOURCE_ID_IMAGE_TIME_6_WHITE,
+    RESOURCE_ID_IMAGE_TIME_7_WHITE,
+    RESOURCE_ID_IMAGE_TIME_8_WHITE,
+    RESOURCE_ID_IMAGE_TIME_9_WHITE,
+    RESOURCE_ID_IMAGE_TIME_COLON_WHITE
 };
 
 #define COLON 10
@@ -56,17 +56,17 @@ static GBitmap *timeDigits[11];
 static BitmapLayer *date_digits_layers[TOTAL_DATE_DIGITS];
 
 const int DATE_IMAGE_RESOURCE_IDS[] = {
-    RESOURCE_ID_IMAGE_DATE_0_BLACK,
-    RESOURCE_ID_IMAGE_DATE_1_BLACK,
-    RESOURCE_ID_IMAGE_DATE_2_BLACK,
-    RESOURCE_ID_IMAGE_DATE_3_BLACK,
-    RESOURCE_ID_IMAGE_DATE_4_BLACK,
-    RESOURCE_ID_IMAGE_DATE_5_BLACK,
-    RESOURCE_ID_IMAGE_DATE_6_BLACK,
-    RESOURCE_ID_IMAGE_DATE_7_BLACK,
-    RESOURCE_ID_IMAGE_DATE_8_BLACK,
-    RESOURCE_ID_IMAGE_DATE_9_BLACK,
-    RESOURCE_ID_IMAGE_DATE_DASH_BLACK
+    RESOURCE_ID_IMAGE_DATE_0_WHITE,
+    RESOURCE_ID_IMAGE_DATE_1_WHITE,
+    RESOURCE_ID_IMAGE_DATE_2_WHITE,
+    RESOURCE_ID_IMAGE_DATE_3_WHITE,
+    RESOURCE_ID_IMAGE_DATE_4_WHITE,
+    RESOURCE_ID_IMAGE_DATE_5_WHITE,
+    RESOURCE_ID_IMAGE_DATE_6_WHITE,
+    RESOURCE_ID_IMAGE_DATE_7_WHITE,
+    RESOURCE_ID_IMAGE_DATE_8_WHITE,
+    RESOURCE_ID_IMAGE_DATE_9_WHITE,
+    RESOURCE_ID_IMAGE_DATE_DASH_WHITE
 };
 
 #define DASH 10
@@ -274,40 +274,45 @@ static void in_recv_handler(DictionaryIterator *iter, void *context)
 	//Get Tuple
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - HI");
 	
-	/*case KEY_INVERT:
-				if(strcmp(t->value->cstring, "on") == 0)
-				{
-					layer_set_hidden(inverter_layer_get_layer(s_inverter_layer), false);
-					persist_write_bool(KEY_INVERT, true);
-					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Inverted");
-				}
-				else if(strcmp(t->value->cstring, "off") == 0)
-				{
-					layer_set_hidden(inverter_layer_get_layer(s_inverter_layer), true);
-					persist_write_bool(KEY_INVERT, false);
-					APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Not Inverted");
-				}
-				break;*/
+	/*
+	#if defined(PBL_BW)
+	Tuple *invert_t = dict_find(iter, MESSAGE_KEY_INVERT);
+	if (invert_t)
+	{
+		if(invert_t->value->int32 == 1)
+		{
+			persist_write_bool(KEY_INVERT, true);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Inverted");
+		}
+		else if(invert_t->value->int32 == 0)
+		{
+			persist_write_bool(KEY_INVERT, false);
+			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Not Inverted");
+		}
+	}
+	#endif */
 
 	Tuple *background_t = dict_find(iter, MESSAGE_KEY_BACKGROUND);
 	if(background_t)
-	{
+	{/*
 		if(background_t->value->int32 == 1)
 		{
 			gbitmap_destroy(s_background_bitmap);
-			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_BLACK);
+			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
 			bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+			//bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
 			persist_write_bool(KEY_BACKGROUND, true);
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Show Back");
 		}
 		else if(background_t->value->int32 == 0)
 		{
 			gbitmap_destroy(s_background_bitmap);
-			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_WHITE);
+			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
 			bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+			//bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
 			persist_write_bool(KEY_BACKGROUND, false);
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - HideBack");
-		}
+		}*/
 	}
 
 	Tuple *date_format_t = dict_find(iter,  MESSAGE_KEY_DATE);
@@ -361,20 +366,25 @@ static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
 static void main_window_load (Window *window) {
 	int i; // for loops
 	
+	//window_set_background_color(window, GColorWhite);
+	
 	// Background Image
 	bool showBackground = persist_read_bool(KEY_BACKGROUND);
 	
-	s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_BLACK);
+	s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
 	s_background_layer = bitmap_layer_create(GRect(0,0,144,168));
+	bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
 	bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));	
 	
+	/*
 	if (!showBackground) { // IDIOTS METHOD OF HIDING BACKGROUND
 		gbitmap_destroy(s_background_bitmap);
-		s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_SQUAREFACE_BACKGROUND_WHITE);
+		s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
 		bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
+		//bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
 	}
-	
+	//gbitmap_destroy(s_background_bitmap);*/
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Background Complete");		
 
 	
@@ -387,7 +397,7 @@ static void main_window_load (Window *window) {
 	// Text Time Period
 	s_timeperiod_layer = text_layer_create(GRect(104, 82, 20, 14));
 	text_layer_set_background_color(s_timeperiod_layer, GColorClear);
-	text_layer_set_text_color(s_timeperiod_layer, GColorWhite);
+	text_layer_set_text_color(s_timeperiod_layer, GColorBlack);
 	text_layer_set_font(s_timeperiod_layer, s_digi_14_font);
 	text_layer_set_text_alignment(s_timeperiod_layer, GTextAlignmentRight);
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeperiod_layer));
@@ -396,7 +406,7 @@ static void main_window_load (Window *window) {
 	// Text Day
 	s_day_layer = text_layer_create(GRect(36, 102, 72, 14));
 	text_layer_set_background_color(s_day_layer, GColorClear);
-	text_layer_set_text_color(s_day_layer, GColorWhite);
+	text_layer_set_text_color(s_day_layer, GColorBlack);
 	text_layer_set_font(s_day_layer, s_digi_14_font);
 	text_layer_set_text_alignment(s_day_layer, GTextAlignmentLeft);
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_day_layer));
@@ -405,7 +415,7 @@ static void main_window_load (Window *window) {
 	// Text Year
 	s_year_layer = text_layer_create(GRect(76, 135, 32, 14));
 	text_layer_set_background_color(s_year_layer, GColorClear);
-	text_layer_set_text_color(s_year_layer, GColorWhite);
+	text_layer_set_text_color(s_year_layer, GColorBlack);
 	text_layer_set_font(s_year_layer, s_digi_14_font);
 	text_layer_set_text_alignment(s_year_layer, GTextAlignmentRight);
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_year_layer));
@@ -458,7 +468,7 @@ static void main_window_load (Window *window) {
 	
 	// TOP GRAPH
 	s_graph_underline = bitmap_layer_create(GRect(41, 50, 62, 1));
-	bitmap_layer_set_background_color(s_graph_underline, GColorWhite);
+	bitmap_layer_set_background_color(s_graph_underline, GColorBlack);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_graph_underline));
 	
 	srand(time(NULL));
@@ -468,7 +478,7 @@ static void main_window_load (Window *window) {
 	for (i = 0; i < GRAPH_BARS; i++) {
 		s_graph_layers[i] = bitmap_layer_create(GRect(p, 49-h, 2, h));
 		s_graph_heights[i] = h;
-		bitmap_layer_set_background_color(s_graph_layers[i], GColorWhite);
+		bitmap_layer_set_background_color(s_graph_layers[i], GColorBlack);
 		layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_graph_layers[i]));
 		p+=4;
 		h = (rand()+(i)) % 39;
@@ -477,26 +487,26 @@ static void main_window_load (Window *window) {
 	
 	// BATTERY //
 	batTop = bitmap_layer_create(GRect(21, 87, 85, 1));
-	bitmap_layer_set_background_color(batTop, GColorWhite);
+	bitmap_layer_set_background_color(batTop, GColorBlack);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(batTop));
 	
 	batBottom = bitmap_layer_create(GRect(21, 92, 85, 1));
-	bitmap_layer_set_background_color(batBottom, GColorWhite);
+	bitmap_layer_set_background_color(batBottom, GColorBlack);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(batBottom));
 	
 	s_bat_layers[0] = bitmap_layer_create(GRect(21, 89, 4, 2));
-	bitmap_layer_set_background_color(s_bat_layers[0], GColorWhite);
+	bitmap_layer_set_background_color(s_bat_layers[0], GColorBlack);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bat_layers[0]));
 	
 	int j = 26;
 	for (i = 1; i < BATTERY_BARS; i++) {
 		s_bat_layers[i] = bitmap_layer_create(GRect(j, 89, 8, 2));
-		bitmap_layer_set_background_color(s_bat_layers[i], GColorWhite);
+		bitmap_layer_set_background_color(s_bat_layers[i], GColorBlack);
 		layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bat_layers[i]));
 		j+=9;
 	}
 	
-	s_charge_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CHARGE_BLACK);
+	s_charge_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CHARGE_WHITE);
 	s_charge_layer = bitmap_layer_create(GRect(14,86,5,8));
 	bitmap_layer_set_bitmap(s_charge_layer, s_charge_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_charge_layer));
@@ -507,7 +517,7 @@ static void main_window_load (Window *window) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Battery Init Complete");
 	
 	// BT DISCONNECT
-	s_bt_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_DISCONNECTED_BLACK);
+	s_bt_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_DISCONNECTED_WHITE);
 	s_bt_layer = bitmap_layer_create(GRect(64,140,16,16));
 	bitmap_layer_set_bitmap(s_bt_layer, s_bt_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bt_layer));
@@ -614,7 +624,7 @@ static void init() {
 	app_message_register_inbox_dropped(inbox_dropped_callback);
 	app_message_register_outbox_failed(outbox_failed_callback);
 	app_message_register_outbox_sent(outbox_sent_callback);
-	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+	app_message_open(128, 128);
 	
 	// UPDATE
 	time_t now = time(NULL);

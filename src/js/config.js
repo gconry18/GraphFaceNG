@@ -14,12 +14,12 @@ module.exports = [
         "type": "heading",
         "defaultValue": "Graphics"
       },
-      {
+      /*{
         "type": "toggle",
         "messageKey": "INVERT",
         "defaultValue": false,
         "label": "Invert Colors"
-      },
+      },*/
       {
         "type": "toggle",
         "messageKey": "BACKGROUND",
