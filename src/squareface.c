@@ -34,17 +34,17 @@ static int s_graph_heights[GRAPH_BARS];
 static BitmapLayer *time_digits_layers[TOTAL_TIME_DIGITS];
 
 const int TIME_IMAGE_RESOURCE_IDS[] = {
-    RESOURCE_ID_IMAGE_TIME_0_WHITE,
-    RESOURCE_ID_IMAGE_TIME_1_WHITE,
-    RESOURCE_ID_IMAGE_TIME_2_WHITE,
-    RESOURCE_ID_IMAGE_TIME_3_WHITE,
-    RESOURCE_ID_IMAGE_TIME_4_WHITE,
-    RESOURCE_ID_IMAGE_TIME_5_WHITE,
-    RESOURCE_ID_IMAGE_TIME_6_WHITE,
-    RESOURCE_ID_IMAGE_TIME_7_WHITE,
-    RESOURCE_ID_IMAGE_TIME_8_WHITE,
-    RESOURCE_ID_IMAGE_TIME_9_WHITE,
-    RESOURCE_ID_IMAGE_TIME_COLON_WHITE
+    RESOURCE_ID_IMAGE_TIME_0,
+    RESOURCE_ID_IMAGE_TIME_1,
+    RESOURCE_ID_IMAGE_TIME_2,
+    RESOURCE_ID_IMAGE_TIME_3,
+    RESOURCE_ID_IMAGE_TIME_4,
+    RESOURCE_ID_IMAGE_TIME_5,
+    RESOURCE_ID_IMAGE_TIME_6,
+    RESOURCE_ID_IMAGE_TIME_7,
+    RESOURCE_ID_IMAGE_TIME_8,
+    RESOURCE_ID_IMAGE_TIME_9,
+    RESOURCE_ID_IMAGE_TIME_COLON
 };
 
 #define COLON 10
@@ -56,17 +56,17 @@ static GBitmap *timeDigits[11];
 static BitmapLayer *date_digits_layers[TOTAL_DATE_DIGITS];
 
 const int DATE_IMAGE_RESOURCE_IDS[] = {
-    RESOURCE_ID_IMAGE_DATE_0_WHITE,
-    RESOURCE_ID_IMAGE_DATE_1_WHITE,
-    RESOURCE_ID_IMAGE_DATE_2_WHITE,
-    RESOURCE_ID_IMAGE_DATE_3_WHITE,
-    RESOURCE_ID_IMAGE_DATE_4_WHITE,
-    RESOURCE_ID_IMAGE_DATE_5_WHITE,
-    RESOURCE_ID_IMAGE_DATE_6_WHITE,
-    RESOURCE_ID_IMAGE_DATE_7_WHITE,
-    RESOURCE_ID_IMAGE_DATE_8_WHITE,
-    RESOURCE_ID_IMAGE_DATE_9_WHITE,
-    RESOURCE_ID_IMAGE_DATE_DASH_WHITE
+    RESOURCE_ID_IMAGE_DATE_0,
+    RESOURCE_ID_IMAGE_DATE_1,
+    RESOURCE_ID_IMAGE_DATE_2,
+    RESOURCE_ID_IMAGE_DATE_3,
+    RESOURCE_ID_IMAGE_DATE_4,
+    RESOURCE_ID_IMAGE_DATE_5,
+    RESOURCE_ID_IMAGE_DATE_6,
+    RESOURCE_ID_IMAGE_DATE_7,
+    RESOURCE_ID_IMAGE_DATE_8,
+    RESOURCE_ID_IMAGE_DATE_9,
+    RESOURCE_ID_IMAGE_DATE_DASH
 };
 
 #define DASH 10
@@ -133,6 +133,7 @@ static void set_container_image(BitmapLayer *bmp_layer, const GBitmap *bmp_image
 		.origin = origin,
 		.size = gbitmap_get_bounds(bmp_image).size
 	};
+	bitmap_layer_set_compositing_mode(bmp_layer, GCompOpSet);
 	bitmap_layer_set_bitmap(bmp_layer, bmp_image);
 	layer_set_frame(bitmap_layer_get_layer(bmp_layer), frame);
 } 
@@ -294,25 +295,19 @@ static void in_recv_handler(DictionaryIterator *iter, void *context)
 
 	Tuple *background_t = dict_find(iter, MESSAGE_KEY_BACKGROUND);
 	if(background_t)
-	{/*
+	{
 		if(background_t->value->int32 == 1)
 		{
-			gbitmap_destroy(s_background_bitmap);
-			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
-			bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
-			//bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
+			layer_set_hidden(bitmap_layer_get_layer(s_background_layer), false);
 			persist_write_bool(KEY_BACKGROUND, true);
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - Show Back");
 		}
 		else if(background_t->value->int32 == 0)
 		{
-			gbitmap_destroy(s_background_bitmap);
-			s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
-			bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
-			//bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
+			layer_set_hidden(bitmap_layer_get_layer(s_background_layer), true);
 			persist_write_bool(KEY_BACKGROUND, false);
 			APP_LOG(APP_LOG_LEVEL_DEBUG, "in_recv_handler() - HideBack");
-		}*/
+		}
 	}
 
 	Tuple *date_format_t = dict_find(iter,  MESSAGE_KEY_DATE);
@@ -377,14 +372,10 @@ static void main_window_load (Window *window) {
 	bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_background_layer));	
 	
-	/*
+	
 	if (!showBackground) { // IDIOTS METHOD OF HIDING BACKGROUND
-		gbitmap_destroy(s_background_bitmap);
-		s_background_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_TIMERING);
-		bitmap_layer_set_bitmap(s_background_layer, s_background_bitmap);
-		//bitmap_layer_set_compositing_mode(s_background_layer, GCompOpSet);
+		layer_set_hidden(bitmap_layer_get_layer(s_background_layer), true);
 	}
-	//gbitmap_destroy(s_background_bitmap);*/
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Background Complete");		
 
 	
@@ -449,7 +440,7 @@ static void main_window_load (Window *window) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - DisplayTime Complete");	
 	
 	// TIME COLON //
-	set_container_image(time_digits_layers[2], timeDigits[COLON], GPoint(69, 65));
+	set_container_image(time_digits_layers[2], timeDigits[COLON], GPoint(69, 54));
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Colon Complete");
 	
 	// DATE LAYER //
@@ -463,7 +454,7 @@ static void main_window_load (Window *window) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - DisplayDate Complete");
 	
 	// DATE DASH //
-	set_container_image(date_digits_layers[2], dateDigits[DASH], GPoint(69, 126));
+	set_container_image(date_digits_layers[2], dateDigits[DASH], GPoint(69, 118));
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Dash Complete");
 	
 	// TOP GRAPH
@@ -506,8 +497,9 @@ static void main_window_load (Window *window) {
 		j+=9;
 	}
 	
-	s_charge_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CHARGE_WHITE);
+	s_charge_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_CHARGE);
 	s_charge_layer = bitmap_layer_create(GRect(14,86,5,8));
+	bitmap_layer_set_compositing_mode(s_charge_layer, GCompOpSet);
 	bitmap_layer_set_bitmap(s_charge_layer, s_charge_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_charge_layer));
 	layer_set_hidden(bitmap_layer_get_layer(s_charge_layer), true);
@@ -517,8 +509,9 @@ static void main_window_load (Window *window) {
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - Battery Init Complete");
 	
 	// BT DISCONNECT
-	s_bt_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_DISCONNECTED_WHITE);
+	s_bt_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_DISCONNECTED);
 	s_bt_layer = bitmap_layer_create(GRect(64,140,16,16));
+	bitmap_layer_set_compositing_mode(s_bt_layer, GCompOpSet);
 	bitmap_layer_set_bitmap(s_bt_layer, s_bt_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bt_layer));
 	layer_set_hidden(bitmap_layer_get_layer(s_bt_layer), true);	
