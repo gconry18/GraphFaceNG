@@ -29,57 +29,57 @@
                 {
                     "file": "images/time-colon.png",
                     "name": "IMAGE_TIME_COLON",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-9.png",
                     "name": "IMAGE_TIME_9",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-8.png",
                     "name": "IMAGE_TIME_8",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-7.png",
                     "name": "IMAGE_TIME_7",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-6.png",
                     "name": "IMAGE_TIME_6",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-5.png",
                     "name": "IMAGE_TIME_5",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-4.png",
                     "name": "IMAGE_TIME_4",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-3.png",
                     "name": "IMAGE_TIME_3",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-2.png",
                     "name": "IMAGE_TIME_2",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-1.png",
                     "name": "IMAGE_TIME_1",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/time-0.png",
                     "name": "IMAGE_TIME_0",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/ico.png",
@@ -90,73 +90,73 @@
                 {
                     "file": "images/disconnected.png",
                     "name": "IMAGE_BT_DISCONNECTED",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-dash.png",
                     "name": "IMAGE_DATE_DASH",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-9.png",
                     "name": "IMAGE_DATE_9",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-8.png",
                     "name": "IMAGE_DATE_8",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-7.png",
                     "name": "IMAGE_DATE_7",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-6.png",
                     "name": "IMAGE_DATE_6",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-5.png",
                     "name": "IMAGE_DATE_5",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-4.png",
                     "name": "IMAGE_DATE_4",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-3.png",
                     "name": "IMAGE_DATE_3",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-2.png",
                     "name": "IMAGE_DATE_2",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-1.png",
                     "name": "IMAGE_DATE_1",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/date-0.png",
                     "name": "IMAGE_DATE_0",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/charge.png",
                     "name": "IMAGE_CHARGE",
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "images/SquareFace.png",
                     "name": "IMAGE_SQUAREFACE_BACKGROUND",
                     "targetPlatforms": null,
-                    "type": "png-trans"
+                    "type": "bitmap"
                 },
                 {
                     "file": "fonts/visitor2.ttf",
