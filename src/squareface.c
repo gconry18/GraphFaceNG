@@ -256,7 +256,8 @@ static void update_battery(BatteryChargeState charge_state) {
 }
 
 // BT UPDATES
-void bluetooth_connection_callback(bool connected) {
+static void bluetooth_connection_callback(bool connected) {
+	APP_LOG(APP_LOG_LEVEL_DEBUG, "update_bt() - BT Callback");
 	if (!connected && !mCharging) {
 		// vibe!
 		vibes_long_pulse();
@@ -515,6 +516,7 @@ static void main_window_load (Window *window) {
 	bitmap_layer_set_bitmap(s_bt_layer, s_bt_bitmap);
 	layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bt_layer));
 	layer_set_hidden(bitmap_layer_get_layer(s_bt_layer), true);	
+	bluetooth_connection_callback(connection_service_peek_pebble_app_connection());
 	
 	APP_LOG(APP_LOG_LEVEL_DEBUG, "main_window_load() - No BT Init Complete");
 	
@@ -625,7 +627,8 @@ static void init() {
 	
 	tick_timer_service_subscribe(SECOND_UNIT, update_time);	
 	battery_state_service_subscribe(update_battery);
-    bluetooth_connection_service_subscribe(bluetooth_connection_callback);
+    connection_service_subscribe((ConnectionHandlers) {
+		.pebble_app_connection_handler = bluetooth_connection_callback});
 }
 
 //--------------------------------------------------------------//
@@ -635,7 +638,7 @@ static void deinit() {
 	window_destroy(s_main_window);
 	tick_timer_service_unsubscribe();
 	battery_state_service_unsubscribe();
-    bluetooth_connection_service_unsubscribe();
+    connection_service_unsubscribe();
 }
 
 int main (void) {
