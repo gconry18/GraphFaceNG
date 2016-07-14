@@ -1,4 +1,5 @@
 #include <pebble.h>
+#include <helpers.c>
   
 static Window *s_main_window;
 
@@ -115,6 +116,7 @@ static void update_graph() {
 			.origin = GPoint(p, 49-h),
 			.size = GSize(2,h)
 	    };
+	bitmap_layer_set_background_color(s_graph_layers[GRAPH_BARS-1], PBL_IF_BW_ELSE(GColorBlack, (GColor)random_color()));
 	layer_set_frame(bitmap_layer_get_layer(s_graph_layers[GRAPH_BARS-1]), frame);
 }
 //------------------------------------------------------------------------------//
@@ -470,7 +472,7 @@ static void main_window_load (Window *window) {
 	for (i = 0; i < GRAPH_BARS; i++) {
 		s_graph_layers[i] = bitmap_layer_create(GRect(p, 49-h, 2, h));
 		s_graph_heights[i] = h;
-		bitmap_layer_set_background_color(s_graph_layers[i], GColorBlack);
+		bitmap_layer_set_background_color(s_graph_layers[i], PBL_IF_BW_ELSE(GColorBlack, random_color()));
 		layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_graph_layers[i]));
 		p+=4;
 		h = (rand()+(i)) % 39;
